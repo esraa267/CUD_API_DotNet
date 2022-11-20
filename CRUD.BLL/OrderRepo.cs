@@ -4,22 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 namespace CRUD_Api.CRUD.BLL
 {
-    public class CartRepo:ICartRepo
+    public class OrderRepo:IOrderRepo
     {
         private readonly ApplicationDBContext _context;
-        public CartRepo(ApplicationDBContext context)
+        public OrderRepo(ApplicationDBContext context)
         {
-
             _context = context;
-
         }
-        public async Task<IEnumerable<Cart>> GetCartAsync()
-        {
-
-            return await _context.carts!.ToListAsync();
-        }
-
-        public async Task<Cart> AddAsync(Cart cart)
+       
+        public async Task<Order> AddAsync(Order cart)
         {
             await _context.carts!.AddAsync(cart);
             await _context.SaveChangesAsync();
@@ -27,5 +20,14 @@ namespace CRUD_Api.CRUD.BLL
 
             return cart;
         }
+
+        public async Task AddListAsync(List<OrderProduct> products)
+        {
+            await _context.AddRangeAsync(products);
+            await _context.SaveChangesAsync();  
+
+        }
+
+      
     }
 }

@@ -16,12 +16,14 @@ namespace CRUD_Api.CRUD.BLL
                 
         }
 
-      
-
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             
             return await _context.products!.OrderBy(g=>g.Name).ToListAsync();
+        }
+      public async Task<Product> GetByIdAsync(int id)
+        {
+            return await _context.products!.SingleOrDefaultAsync(p=>p.Id==id);
         }
         public async Task<Product> CheckExists(Expression< Func<Product,bool>> expression)
         {
@@ -31,35 +33,30 @@ namespace CRUD_Api.CRUD.BLL
         {
             var Product = new Product
             {
-                Name = proudct.Name,
-                Price = proudct.Price,
-                Description = proudct.Description
+                Name = proudct.Name!,
+                Price = proudct.Price!,
+                Description = proudct.Description!
             };
             await _context.products!.AddAsync(Product);
+            
             await _context.SaveChangesAsync();
 
 
             return proudct;
 
         }
-        public async Task<ProductDto> UpdateAsync(int id ,ProductDto product)
+        public async Task< Product> Update(Product product)
         {
-
-            var Product = await _context.products!.SingleOrDefaultAsync(p => p.Id == id);
-
-            Product.Name = product.Name;
-            Product.Price = product.Price;
-            Product.Description = product.Description;
-
-            await _context.SaveChangesAsync();
-
+            _context.products!.Update(product);
+           await _context.SaveChangesAsync();
             return product;
+          
         }
 
-        public async Task<Product> DeleteAsync(Product product)
+        public async Task<Product> Delete(Product product)
         {
-            _context.products!.Remove(product);
-            await   _context.SaveChangesAsync();
+            _context.Remove(product);
+          await  _context.SaveChangesAsync();
             return product;
         }
 

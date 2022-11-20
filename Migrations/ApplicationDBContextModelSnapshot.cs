@@ -40,49 +40,25 @@ namespace CRUD_Api.Migrations
 
             modelBuilder.Entity("CRUD_Api.Models.CartProduct", b =>
                 {
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartId", "ProductId");
-
-                    b.HasIndex("CartId1");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductId1");
-
-                    b.ToTable("CartProduct");
-                });
-
-            modelBuilder.Entity("CRUD_Api.Models.Items", b =>
-                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Price")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PtoductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("PtoductId");
+
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("CRUD_Api.Models.Product", b =>
@@ -94,12 +70,15 @@ namespace CRUD_Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Price")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -307,27 +286,15 @@ namespace CRUD_Api.Migrations
 
             modelBuilder.Entity("CRUD_Api.Models.CartProduct", b =>
                 {
-                    b.HasOne("CRUD_Api.Models.Cart", null)
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CRUD_Api.Models.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("CartId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CRUD_Api.Models.Product", null)
-                        .WithMany("CartProducts")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CRUD_Api.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId1")
+                        .HasForeignKey("PtoductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -385,16 +352,6 @@ namespace CRUD_Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CRUD_Api.Models.Cart", b =>
-                {
-                    b.Navigation("CartProducts");
-                });
-
-            modelBuilder.Entity("CRUD_Api.Models.Product", b =>
-                {
-                    b.Navigation("CartProducts");
                 });
 #pragma warning restore 612, 618
         }

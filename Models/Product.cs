@@ -11,6 +11,6 @@ namespace CRUD_Api.Models
      
         public string Price { get; set; } 
         public string Description { get; set; } 
-        public ICollection<CartProduct>? CartProducts { get; set; } 
+       // public ICollection<CartProduct>? CartProducts { get; set; } 
     }
 }

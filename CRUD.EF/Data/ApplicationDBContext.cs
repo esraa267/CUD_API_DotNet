@@ -13,22 +13,23 @@ namespace CRUD_Api.CRUD.EF.Data
         }
 
         public DbSet<Product>? products { get; set; }
-        public DbSet<Cart>? carts { get; set; }
+        public DbSet<Order>? carts { get; set; }
 
-        public DbSet<CartProduct>? CartProduct { get; set; }
-        public DbSet<Items>? Items { get; set; }
+        public DbSet<OrderProduct>? CartProducts { get; set; }
+        
+      
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<CartProduct>().HasKey(key => new { key.CartId, key.ProductId });
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    builder.Entity<CartProduct>().HasKey(key => new { key.CartId });
 
-            builder.Entity<CartProduct>().HasOne<Product>().WithMany(item => item.CartProducts)
-                .HasForeignKey(product => product.ProductId);
+        //   // builder.Entity<CartProduct>().HasOne<Product>().WithMany(item => item.CartProducts)
+        //   //     .HasForeignKey(product => product.ProductId);
 
-            builder.Entity<CartProduct>().HasOne<Cart>().WithMany(item => item.CartProducts)
-           .HasForeignKey(product => product.CartId);
+        //   // builder.Entity<CartProduct>().HasOne<Cart>().WithMany(item => item.CartProducts)
+        //   //.HasForeignKey(product => product.CartId);
 
-            base.OnModelCreating(builder);
-        }
+        //    base.OnModelCreating(builder);
+        //}
     }
 }

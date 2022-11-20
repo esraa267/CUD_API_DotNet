@@ -7,8 +7,8 @@ namespace CRUD_Api.services
     {
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<ProductDto> AddProductsAsync(ProductDto product);
-        Task<ProductDto> UpdateProductsAsync(int id ,ProductDto product);
-        Task <Product> DeleteProductAsync(int? id);
+        Task<Product> UpdateProductsAsync(int id, ProductDto product);
+        Task <Product> DeleteProductAsync(int id);
        
         
        

@@ -14,12 +14,14 @@ builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IProductServise, ProductServise>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
-builder.Services.AddScoped<ICartservice, Cartservice>();
-builder.Services.AddScoped<ICartRepo, CartRepo>();
+builder.Services.AddScoped<IOrderservice, OrderService>();
+builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 b => b.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName)));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

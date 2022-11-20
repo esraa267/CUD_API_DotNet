@@ -45,11 +45,13 @@ namespace CRUD_Api.Controllers
 
             return Ok(result);  
         }
-      
+
         [HttpPut("{id}")]
-        public async Task< IActionResult> UpdateCliet(int id, [FromBody] ProductDto product)
+        public async Task<IActionResult> UpdateCliet(int id, [FromBody] ProductDto product)
+
         {
             var data = await _productServise.UpdateProductsAsync(id,product);
+            if(data==null){ return NotFound(); }
             return Ok(data);
         }
         [HttpDelete("{id}")]
@@ -58,11 +60,6 @@ namespace CRUD_Api.Controllers
             var data = await _productServise.DeleteProductAsync(id);
            
             return  data!=null ? Ok(data):NotFound("Not Found");
-
-          
-
-
-          
         }
 
       

@@ -1,6 +1,8 @@
 ﻿using CRUD_Api.CRUD.BLL;
+using CRUD_Api.CRUD.EF.Data;
 using CRUD_Api.Dto;
 using CRUD_Api.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace CRUD_Api.services
@@ -9,7 +11,8 @@ namespace CRUD_Api.services
     {
 
         private readonly IProductRepo _productRepo;
-        public ProductServise(IProductRepo productRepo)
+ 
+        public ProductServise(IProductRepo productRepo, ApplicationDBContext context)
         {
 
             _productRepo = productRepo;
@@ -30,46 +33,30 @@ namespace CRUD_Api.services
             return result;
         }
 
-        public async Task<ProductDto> UpdateProductsAsync(int id ,ProductDto product)
-        {
-            // var result = await _productRepo.CheckExists(c => c.Id == id);
-
-            //if (product == null)
-            //{
-            //    var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
-            //    {
-            //        Content = new StringContent(string.Format("No product with ID = {0}",id)),
-            //        ReasonPhrase = "Client ID Not Found"
-            //    };
-
-
-
-            //}
-            var data = await _productRepo.UpdateAsync(id, product);
-            return data;
+        public async Task<Product> UpdateProductsAsync(int id,ProductDto product)
            
+        {
+            var Product = await _productRepo.GetByIdAsync(id);
+                if (Product is not null)
+                {
+                    Product.Name = product.Name!;
+                    Product.Price = product.Price!;
+                    Product.Description = product.Description!;
+            }
+            return await _productRepo.Update(Product!);
         }
 
-        public async Task<Product> DeleteProductAsync(int? id)
+        public async Task<Product> DeleteProductAsync(int id)
         {
-            if (id.HasValue)
-            {
+                      
+                var result = await  _productRepo.GetByIdAsync(id);
+                if (result is not null)
+                    return await _productRepo.Delete(result!);
+                else
+                    return result!;
+            
 
-
-                var result = await _productRepo.CheckExists(c => c.Id == id);
-
-
-                if (result == null) return result;
-
-
-
-                var data = await _productRepo.DeleteAsync(result);
-                return data;
-
-            }
-
-
-            throw new ArgumentNullException("Id is required");
+         //   throw new ArgumentNullException("Id is required");
         }
 
 

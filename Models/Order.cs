@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRUD_Api.Models
 {
-    public class Cart
+    public class Order
     {
         [Key]
         public int Id { get; set; }
-        public ICollection<CartProduct>? CartProducts { get; set; }
         public int? Quantity { get; set; }
+
+      
+    
     }
 }
