@@ -1,12 +1,10 @@
-﻿using CRUD_Api.CRUD.BLL;
-using CRUD_Api.Dto;
-using CRUD_Api.Models;
+﻿using CRUD_Api.Dto;
 using CRUD_Api.services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRUD_Api.Controllers
 {
-  
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController :ControllerBase
@@ -24,26 +22,64 @@ namespace CRUD_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            return Ok(await _productServise.GetProductsAsync()); 
+            try
+            {
+                var data = await _productServise.GetProductsAsync();
+                if (data == null)
+                {
+                    return NotFound();
+                }
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest("Internal server error");
+            }
+        
         }
 
+        [HttpGet("{id}") ]
+        public async Task< IActionResult> GetProductById(int id)
+        {
+            try
+            {
+                var product = await _productServise.GetById(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                return Ok(product);
+            }
+            catch
+            {
+                 return StatusCode(500,"Internal Server Error");
 
+            }
+
+
+
+        }
        
         [HttpPost("Add")]
+       
         public async Task<IActionResult> AddProduct(ProductDto product)
         {
-            
-          if(product == null){ return BadRequest(); }
-               
-            
-          var result = await _productServise.AddProductsAsync(product);
-          if(result==null){
+           
+            if (product == null){ return BadRequest(); }
 
-                return StatusCode(StatusCodes.Status500InternalServerError,
-               "Error creating new product5");
-             }
+            if (ModelState.IsValid)
+            {
+                var result = await _productServise.AddProductsAsync(product);
+                if (result == null)
+                {
 
-            return Ok(result);  
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error creating new product");
+                }
+                return Ok(result);
+            }
+           
+            return BadRequest();  
         }
 
         [HttpPut("{id}")]

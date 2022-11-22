@@ -2,6 +2,7 @@
 using CRUD_Api.CRUD.EF.Data;
 using CRUD_Api.Dto;
 using CRUD_Api.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -28,9 +29,10 @@ namespace CRUD_Api.services
         }
         public async Task<ProductDto> AddProductsAsync(ProductDto product)
         {
-            var result = await _productRepo.AddAsync(product);
+            
+            await _productRepo.AddAsync(product);
           
-            return result;
+            return product;
         }
 
         public async Task<Product> UpdateProductsAsync(int id,ProductDto product)
@@ -59,11 +61,10 @@ namespace CRUD_Api.services
          //   throw new ArgumentNullException("Id is required");
         }
 
-
-
-
-
-
-
+        public async Task<Product> GetById(int id)
+        {
+           var result= await _productRepo.GetByIdAsync(id);
+            return result;
+        }
     }
 }

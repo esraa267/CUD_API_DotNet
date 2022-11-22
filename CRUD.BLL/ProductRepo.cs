@@ -29,7 +29,7 @@ namespace CRUD_Api.CRUD.BLL
         {
             return await _context.products!.Where(expression!).FirstOrDefaultAsync();
         }
-        public async Task<ProductDto> AddAsync(ProductDto proudct)
+        public async Task AddAsync(ProductDto proudct)
         {
             var Product = new Product
             {
@@ -42,7 +42,7 @@ namespace CRUD_Api.CRUD.BLL
             await _context.SaveChangesAsync();
 
 
-            return proudct;
+        
 
         }
         public async Task< Product> Update(Product product)

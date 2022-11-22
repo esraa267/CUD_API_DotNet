@@ -22,6 +22,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlSer
 b => b.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName)));
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

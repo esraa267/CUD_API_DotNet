@@ -9,8 +9,8 @@ namespace CRUD_Api.CRUD.BLL
         Task<IEnumerable<Product>> GetAllAsync();
 
         Task<Product> GetByIdAsync(int id);
-        Task<ProductDto> AddAsync(ProductDto product);
-       Task<Product> Update(Product product);
+        Task AddAsync(ProductDto product);
+        Task<Product> Update(Product product);
         Task<Product> Delete(Product product);
 
 
